@@ -1,0 +1,488 @@
+if u want to add a column with not null if data exists in the table.use default value.
+
+alter table ashu add (location varchar2(20) default ‘x’ not null)
+
+1. List the employee number,name,job,title and hiredate of employee in department 10?
+
+select EMPNO, ENAME,JOB,MGR,HIREDATE from emp where deptno=10;
+
+4. Select the name and salary of all employee who are clerks?
+
+select ENAME,SAL from emp where job=’CLERK’;
+
+5. Select the name and annual salary of all employees?
+
+select ename,sal*12 annualsalary from emp;
+
+6. List the name,job,salary of everyone hired on december 17,1980?
+
+select ename,sal,job from emp where
+HIREDATE=’17-DEC-1980′;
+
+7. List the department name and department number for departments with numbers
+greater than or equal to 20?
+
+select deptno,dname from dept where deptno>=20;
+
+8. List all employee who have a salary between 1000and 2000?
+
+select * from emp where sal between 1000 and 2000;
+
+9. List the names of employees whose salaries are less than 2500?
+
+select ename from emp where sal sal;
+
+11. Display the name, monthly salary and daily salary and hourly salary for
+employees assume that the sal column in the table is the monthly salary, that there are 22 working days in a month,and that there are 8 working hours in a day. rename the columns as monthly,daily,hourly?
+
+Select ename,sal monthlysal ,sal/22 dailysalary , sal/(22*8) hourlysalary from emp;
+
+12. List the names and employer’s numbers of managers who earn more than 2600 display in alphabetic order by name?
+
+Select ename,empno from emp where job=’MANAGER’ and sal>2600 order by ename;
+
+13. Display all employee names who have TH or LL in them?
+
+Select ename from emp where ename like ‘%TH%’ or ename like ‘%LL%’;
+
+14. List the details of employees in departments 10 and 20 in alphabtical order of name ?
+
+Select * from emp where deptno in (10,20) order by ename;
+
+15)Select the information about manager and the president from the column job in the
+table emp. Order the result by department number?
+
+select * from emp
+where job=’MANAGER’ or job=’PRESIDENT’
+order by deptno
+
+16. List the employee name that do not end with “S”?
+
+Select ename from emp where ename not like ‘%S’;
+
+17. List the employee name that start with “C”?
+
+select ename from emp where ename like ‘C%’;
+
+18. List the name,job and department of everyone whose name falls in the
+alphabetic range “C” to “F”?
+
+select e.ename,e.job,d.dname from emp e , dept d
+where d.deptno=e.deptno
+and e.ename between ‘C’ and ‘G’;
+
+19. List employee details working in department 20,30 or 40?
+
+Select * from emp where deptno in (20,30,40);
+
+20. List of employees whose names start with “M” and end with “R”?
+
+Select ename from emp where ename like ‘M%’ and ename like ‘%R’;
+
+21. Display all employee who were hired during 1983?
+
+select ename from emp
+where to_char(hiredate,’yyyy’)=1983
+
+22. Display the data as shown below:
+Smith has held the position of clerk in department 20 since 10 june’83.
+Allen has held the position of salesman in department 30since 13 june 1983.
+Ward has held position of salesman in department 30 since 13 june 1983.
+
+select ename||’ has held the position of ‘||job||’ in department ‘||deptno||’ since ‘||hiredate
+from emp
+
+23. List all rows from emp table ,by comverting the null values in comm column to 0?
+
+select empno,ename,job,mgr,hiredate,sal,nvl(comm,0) from emp;
+
+24. List all managers and salesman with salaries over 1500?
+
+select ename,job,sal from emp
+where job=’SALESMAN’ or job=’MANAGER’
+and sal>1500
+
+25. Write a query that will accept a given job title and display all records according
+to that title .Accept salary prompt ‘enter value for salary’?
+
+select * from emp where job=’&job’
+AND
+SAL=’&SAL’;
+
+26. List all employees who do not get any commission?
+
+SELECT ENAME,COMM FROM EMP
+WHERE
+ENAME
+NOT IN
+(SELECT ENAME FROM EMP WHERE COMM > 0);
+
+28. List the names and hiredate of the employees in dept 20 . Display hire date
+formatted as ’12/03/84′?
+
+SELECT ENAME,TO_char(hiredate,’dd/mM/yyyy’) FROM emp
+WHERE DEPTNO=20;
+
+29. How many months has the president worked for the company? round th the nearest
+whole number of months?
+
+select round(months_between (sysdate,hiredate),0) from emp
+where job=’PRESIDENT’
+
+30. List the names of all employees whose hire date anniversary is in the month of december?
+
+select ename from emp
+where to_char(hiredate,’mm’)=12
+
+31. Give sql command to find the average salary per job in each dept .This sql
+figures in emp table are for each month?
+
+select deptno,job, avg(sal) from emp
+group by deptno,job
+
+32. In one query.count the number of people in dept 30 who can receive a salary and
+the number of people who receive a commission?
+
+select count(sal) “salary”,count(comm) “Comm”
+from emp
+where deptno=30
+
+33. Compute the average,minimun and maximum salaries of those groups of employees
+having the job clerk or manager?
+
+Select avg(sal),max(sal),min(sal) from emp where job in(‘CLERK’,’MANAGER’);
+
+34. Calculate the total compensation expense for each dept. for one year , the sql comm figures in the emp table are for each month. Assume that employees who do note earn a commission receive non monetary benefits that are worth $100 a month?
+
+select deptno,(nvl(sum(comm)*12,0)+sum(nvl(comm,0)+100)*12) “Total”
+from emp
+group by deptno
+/
+
+35. Do a case insensitive search for a list of employees with a job that
+a user enters(e.g. clerk)?
+
+select ename from emp where job=upper(‘&job’);
+
+36. Produce the following output
+****** employee
+——–
+smith (clerk)
+
+select ename ||'(‘||job||’)’ “employee” from emp;
+
+37. Which employees earn less than 30% ot the president’s salary?
+
+Select ename from emp where sal =1500 AND SAL= 3000 group by job
+
+SELECT JOB,SAL FROM EMP WHERE SAL >= 3000;
+
+50. Display the average monthly salary bill for each job type within a department?
+
+SELECT AVG(SAL),DEPTNO FROM EMP GROUP BY DEPTNO;
+
+51. Find out the diffenence between highest and lowest salaries?
+
+SELECT MAX(SAL)-MIN(SAL) FROM EMP;
+
+52. Find all departments which have more than 3 employees?
+
+SELECT DEPTNO FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(*) >3
+
+53. Checkwhether all employees numbers are indeed unique?
+****SELECT EMPNO FROM EMP;
+54. List lowest paid employees working for each manager?
+
+SELECT DISTINCT(E1.ENAME),E1.MGR,E1.SAL FROM EMP E1,EMP E2
+WHERE
+E1.MGR=E2.MGR
+AND
+E1.SAL < E2.SAL;
+
+55. Display all employee names and their department names in department order?
+
+SELECT EMP.ENAME,DEPT.DNAME FROM EMP,DEPT
+WHERE
+EMP.DEPTNO=DEPT.DEPTNO
+ORDER BY EMP.DEPTNO;
+
+56. Display all employee name,department number and name?
+
+SELECT EMP.ENAME,DEPT.DEPTNO,DEPT.DNAME FROM EMP,DEPT
+WHERE
+EMP.DEPTNO=DEPT.DEPTNO;
+
+57. Display the department that has TWO employees?
+
+SELECT DEPTNO FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(*) = 2
+
+****58. Find all employees who joined the company before their manager?
+
+SELECT DISTINCT(E1.ENAME),E1.MGR,E1.HIREDATE FROM EMP E1,EMP E2
+WHERE
+E1.MGR=E2.MGR
+AND
+E1.HIREDATE
+(SELECT MIN(SAL) FROM EMP WHERE DEPTNO=30)
+61. Display employees who has earn more than lowest salary in dept 30?
+SELECT ENAME,SAL FROM EMP
+WHERE
+DEPTNO=30
+AND
+SAL >
+(SELECT MIN(SAL) FROM EMP WHERE DEPTNO=30);
+
+62. Find employees who earn more than every employee in dept 30?
+SELECT ENAME,SAL FROM EMP
+WHERE
+DEPTNO=30
+AND
+SAL >
+any(SELECT distinct(SAL) FROM EMP WHERE DEPTNO=30)
+
+63. Find the job with the highest average salary?
+
+Select job FROM EMP
+where
+sal
+in (select max(avg(sal)) from emp group by job);
+
+64. Fisplay the name,job,hiredate for employees whose salary is greater than the
+highest salary in the sales department?
+
+SELECT ENAME,JOB,HIREDATE FROM EMP,DEPT
+WHERE SAL>(SELECT MAX(SAL) FROM EMP,DEPT WHERE DNAME=’SALES’);
+
+65. Copy all information on dept10 into the D10 history table?
+
+INSERT INTO D10 SELECT * FROM DEPT10;
+
+66. Delete all information on dept10 from emp table?
+
+DELETE FROM EMP WHERE DEPTNO=10;
+
+67. Create in cluster table/cluster index on emp(dept no) and dept(dept no)?
+*****
+Create cluster emp_clus emp(deptno);
+
+68. Create synonym on emp table?
+
+CREATE SYNONYM SYN_EMP FOR EMP;
+
+69. Create indexs on empno on emp table?
+
+CREATE INDEX INDEX_EMP ON EMP(EMPNO);
+
+70. List all tables which are created on a particular date?
+
+select OBJECT_NAME from user_objects
+where
+OBJECT_TYPE=’TABLE’
+AND
+CREATED=’&CREATED’;
+
+71. List all indexs which are created in a particular date and table?
+
+72. List all views which are created for a particular date and table?
+
+select OBJECT_NAME from user_objects
+where
+OBJECT_TYPE=’VIEW’
+AND
+CREATED=’&CREATED’;
+
+73. List all synonym which are created for a particular table and date?
+
+select OBJECT_NAME from user_objects
+where
+OBJECT_TYPE=’ SYNONYM’
+AND
+CREATED=’&CREATED’;
+
+74. List all the objects which are created on a particular date?
+
+Select object_name from user_objects
+WHERE
+CREATED=’&CREATED’;
+
+75. Display asterisk against the row of the most recently hired employees.display ename,hiredate & column name showing ” * ” and column name maxdate (for unique records)?
+
+76. Delete rows from dept table of those deptnumbers do not have matching rows in the emp table?
+DELETE FROM DEPT
+WHERE
+DEPTNO
+NOT IN
+(SELECT EMP.DEPTNO FROM EMP,DEPT
+WHERE
+DEPT.DEPTNO=EMP.DEPTNO)
+
+77. Select Ename,job,salary,mgr,deptno for a given job title?
+SELECT ENAME,JOB,SAL,MGR,DEPTNO FROM EMP WHERE
+JOB=’&JOB’;
+78. List the emp name & salary increased by 15% and expressed as whole no of dollars?
+SELECT ENAME ,TO_CHAR(SAL+SAL*.15,’$9,9999.99′) FROM EMP;
+
+79. Display each employee name with hiredate & review date . assume review date is one year
+after hiredate.order output in assending review date order?
+
+select ename, hiredate,
+TO_CHAR( ADD_MONTHS( hiredate , 12),’dd-mon-yy’) “review date” from emp
+order by hiredate
+
+80. Write query which will return the day of the week,for any date entered
+in the format DD.MM.YY?
+
+SELECT TO_CHAR(to_date(‘&HIREDATE’,’Dd-mm-yy’),’fmday’) FROM dual
+
+82. List the min & max for each job type?
+
+select min(sal),max(sal) from emp group by job;
+
+83. Find avg salary & avg total remunation for each job title.remember salesman earn commision?
+
+Select avg(sal),avg(nvl(comm,0)) from emp group by job;
+
+84. Find all dept’s which have more than 3 employees?
+
+SELECT DEPTNO FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(*) >3;
+
+85. List the employee name ,job ,salary ,grade,dept name for every one in the
+company except clerks.sort on salary displaying the highest salary first?
+
+Select e.ename,e.job,e.sal,d.dname from emp e,dept d
+Where
+e.job ‘CLERK’
+and
+e.deptno=d.deptno
+order by sal desc;
+
+86. List the ename,job,annual salary,deptno,dname,grade of employees who earn $36000a year or who are clerks?
+
+Select e.ename,e.job,e.sal*12,d.dname from emp e,dept d
+Where
+e.job=’CLERK’
+and
+(e.sal*12)=36000;
+
+87. Show name,salary,deptno for any employee who earns a salary greater than the average for their dept sort in dept order?
+
+Select ename,sal,deptno from emp where
+sal> any(select avg(sal) from emp group by deptno)
+order by deptno;
+
+88. Who are the top3 carners in the company.display their name and salary?
+
+Select * from (select sal from portal30_demo.emp group by sal order by sal desc) where rownum any(select avg(sal) from emp group by deptno);
+
+91. Find all employees whose dept is not in the dept table ?
+
+Select ename from emp
+Where
+deptno not in
+(select deptno from dept)
+
+92. It has been dicovered that the sales people in dept 30 are not males. produce the folowing output.
+ENAME DEPTNO JOB
+______ ________ ____
+ALLEN 30 sales person
+WARD 30 sales person
+BLAKE 30 manager
+
+Select ename, job || ‘sales person’
+,deptno from emp where deptno=30
+and
+job in(‘SALESMAN’,’MANAGER’);
+
+93. Find the employee who earns the min salary?
+
+SELECT MIN(SAL) FROM EMP;
+
+94. Display the name,job,hiredate ,salary for employees whose salary is greater
+than the highest salary in SALES dept?
+
+SELECT ENAME,JOB,HIREDATE FROM EMP,DEPT
+WHERE SAL>(SELECT MAX(SAL) FROM EMP,DEPT WHERE DNAME=’SALES’);
+
+95. List employees with eaither the same job as jones or a salary greater than or equal
+to ford’s order by job and salary?
+
+SELECT ENAME FROM EMP WHERE SAL >
+(SELECT SAL FROM EMP WHERE ENAME=’FORD’)
+OR
+JOB IN (SELECT JOB FROM EMP WHERE ENAME=’JONES’)
+ORDER BY JOB,SAL;
+
+96. List employees in deptno10 with the same job as anyone in the sales dept?
+
+SELECT EMP.ENAME,EMP.JOB FROM EMP,DEPT
+WHERE EMP.DEPTNO=10
+AND
+DEPT.DNAME=’SALES’;
+98:Retrieve the name, department, and salary, of any employee whose salary is above average for his or her department.
+Enter this query:
+SELECT POSSIBLE.ENAME, POSSIBLE.DEPT, POSSIBLE.SALARY
+FROM EMPLOYEE POSSIBLE
+WHERE SALARY >
+(SELECT AVG (SALARY)
+FROM EMPLOYEE AVERAGE
+WHERE POSSIBLE.DEPT = AVERAGE.DEPT) ;
+
+97. List the employees having the same job as employees located in chicago?
+
+SELECT DISTINCT(E1.ENAME) FROM EMP E1,
+EMP E2
+WHERE
+E1.JOB IN
+(SELECT E2.JOB FROM EMP E2,DEPT D
+WHERE
+D.LOC=’CHICAGO’ AND E2.DEPTNO=D.DEPTNO)
+
+98. List employee whose salary is equal to that of SCOTT or WARD?
+
+SELECT ENAME FROM EMP WHERE SAL
+IN (SELECT SAL FROM EMP WHERE ENAME=’SCOTT’ OR ENAME=’WARD’);
+
+99. Set salaries of all salesman equal to 1.1 times the average salary of salesman?
+select a.job, round(b.sal*1.1/count(‘SALESMAN’)) sal from portal30_demo.emp a,portal30_demo.emp b
+where a.job = b.job
+and a.job = ‘SALESMAN’
+group by a.job,b.sal
+
+100. Delete all employees with the same job jones.and jones should not be deleted?
+
+101. Write a query to get the below output
+
+102. Write a query to delete the Duplicate rows for Emp table?
+DELETE FROM
+
+WHERE (ROWID, )
+NOT IN
+(SELECT MIN(ROWID),
+FROM
+GROUP BY );
+103. Write a query to display 5th row to 7th row of Emp Table?
+
+SELECT * FROM
+(SELECT ROWNUM , FROM
+(SELECT FROM
+
+ORDER BY )) –inline function
+WHERE A.no > &n and A.no < &m ;
+104. Write a query to display the 2nd Max Salary earning employee?
+
+select max(sal) from portal30_demo.emp where sal not in (select max(sal) sal from portal30_demo.emp)
+
+105. Assume the Employee Address is like ‘Addressline1.Addressline2.City.Pincode.State.Country’ .
+Write a query to display the address each as an individual column like
+Ename Addressline1 Addressline2 City Pincode State Country
+——— ————— ————— —– ———- —— ———-
+
+104)Query to get different packages from specified schema:
+
+select * from dba_objects where object_type='PACKAGE' and object_name like 'XXCCR%';
